@@ -1,0 +1,14 @@
+{% extends 'basetemp.html' %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        {% if request.user.is_authenticated %}
+            <div style="font-size: 20px;">{{ file.title }} - <a href="{{ file.file.url }}">скачати</a></div>
+        {% else %}
+            <div style="font-size: 20px;">щоб скачати - <a href="{% url 'login-page' %}">увійдіть</a></div>
+        {% endif %}
+        <div style="font-size: 20px;"><b>Перегляд файлу:</b></div>
+        <iframe style="width: 500px;height: 700px;"
+                src="https://docs.google.com/gview?url={{ file.file.url }}&embedded=true"></iframe>
+    </div>
+{% endblock %}

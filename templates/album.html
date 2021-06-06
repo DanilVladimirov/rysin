@@ -1,0 +1,15 @@
+{% extends 'basetemp.html' %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        <div style="color: crimson;font-size: 20px;text-transform: uppercase;text-align: center;">{{ album.title }}</div>
+        <div style="display: flex; flex-wrap: wrap;margin-top: 10px;justify-content: center;">
+            {% for photo in album.photos.all %}
+                <div style="margin-right: 10px;">
+                    <img style="width: 250px;height: 250px;object-fit: cover;" src="{{ photo.photo.url }}">
+                    <div style="text-align: center;">{{ photo.description }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

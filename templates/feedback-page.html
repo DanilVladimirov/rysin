@@ -1,0 +1,43 @@
+{% extends 'basetemp.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/feedback-style.css">
+{% endblock %}
+
+{% block body %}
+    <div style="padding-top: 10px;">
+        <div class="title">Зворотній зв'язок</div>
+        <div id="msg" style="text-align: center;"></div>
+        <form id="feedback_form" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Ім'я та призвіще" name="full_name">
+            <input type="text" placeholder="пошта" name="email">
+            <input type="text" placeholder="Тема письма" name="title">
+            <textarea placeholder="ваше повідомлення" name="text"></textarea>
+            <button type="submit">відправити</button>
+        </form>
+    </div>
+    <script>
+        $('#feedback_form').submit(function (e) {
+            e.preventDefault();
+            $form = $(this)
+            var formData = new FormData(this);
+            $.ajax({
+                url: {% url 'add-feedback' %},
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        $('#feedback_form')[0].reset();
+                        $('#msg').text("Чекайте на відповідь !");
+                    } else {
+
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
+{% endblock %}

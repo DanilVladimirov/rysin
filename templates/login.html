@@ -1,0 +1,21 @@
+{% extends 'basetemp.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/auth-pages-style.css">
+{% endblock %}
+
+{% block body %}
+    <div class="title">Логін</div>
+    <div style="margin-top: 10px;">
+        <div class="auth">
+            <div style="text-align: right;">Ще не зареєстровані? - <a href="{% url 'register-page' %}">зареєструватись</a></div>
+            <form class="form_auth" method="post">
+                {% csrf_token %}
+                <input type="text" placeholder="ваш логін" name="username" id="id_username" required>
+                <input type="password" placeholder="ваш пароль" name="password" required>
+                <button type="submit">ввійти</button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

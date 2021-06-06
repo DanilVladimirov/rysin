@@ -1,0 +1,105 @@
+{% extends 'basetemp.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/page_style.css">
+{% endblock %}
+
+{% block body %}
+    <div class="slideshow-container">
+        {% for sphoto in slider_photos %}
+            <div class="mySlides fade">
+                <img src="{{ sphoto.photo.url }}">
+            </div>
+        {% endfor %}
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+    <div style="text-align:center">
+        {% for sphoto in slider_photos %}
+            <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
+        {% endfor %}
+    </div>
+    <hr class="top_hr">
+    <div class="main">
+        <div class="posts">
+            {% if request.user.is_superuser %}
+                <form method="post" enctype="multipart/form-data" id="pub_form" style="margin-bottom: 10px;">
+                    {% csrf_token %}
+                    <input type="text" name="title" placeholder="Тема публікації" required>
+                    <textarea name="text" placeholder="Текст вашої публікації" required></textarea>
+                    <input type="file" accept="image/*" name="photo" id="id_photo">
+                    <button type="submit">створити</button>
+                </form>
+            {% endif %}
+            <div id="posts">
+                {% for pub in publics %}
+                    <div class="post" id="pub{{ pub.id }}">
+                        <div class="post_title">{{ pub.title }}</div>
+
+                        <div class="post_content">
+                            {% if pub.photo %}
+                                <img src="{{ pub.photo.url }}">
+                            {% endif %}
+                            <div class="post_text">{{ pub.text | safe }}</div>
+                        </div>
+                        {% if request.user.is_superuser %}
+                            <button onclick="pubdel({{ pub.id }})">видалити</button>
+                        {% endif %}
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="themes">
+            <div class="title_themes">корисні посилання</div>
+            {% for nav in navs %}
+                <div class="theme"><a href="{{ nav.url }}">{{ nav.title }}</a></div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        $('#pub_form').submit(function (e) {
+            e.preventDefault();
+            $form = $(this)
+            var formData = new FormData(this);
+            $.ajax({
+                url: {% url 'pub-create' %},
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    var pubs = document.getElementById('posts');
+                    var first_pub = pubs.childNodes[0];
+                    $('#pub_form')[0].reset();
+                    if (response.success) {
+                        $created_pub = $('<div class="post" id="pub' + response.pid + '"> <div class="post_title">' + response.title + '</div> <div class="post_content"><img src="' + response.photo + '"> <div class="post_text">' + response.text + '</div> </div><button onclick="pubdel(' + response.pid + ')">видалити</button> <hr></div>');
+                        $created_pub.insertBefore(first_pub)
+                    } else {
+                        $created_pub = $('<div class="post" id="pub' + response.pid + '"><div class="post_title">' + response.title + '</div> <div class="post_content"><div class="post_text">' + response.text + '</div></div> <button onclick="pubdel(' + response.pid + ')">видалити</button><hr></div>');
+                        $created_pub.insertBefore(first_pub)
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+
+        function pubdel(pub_id) {
+            $.ajax({
+                type: 'POST', url: '{% url "pub-del" %}',
+                data: {'csrfmiddlewaretoken': scrf_token, 'pub_id': pub_id},
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.success) {
+                        var pub = "#pub" + pub_id;
+                        $(pub).remove();
+                    } else {
+
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}

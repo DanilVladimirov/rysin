@@ -1,0 +1,43 @@
+#feedback_form {
+    width: 500px;
+    margin: auto;
+    padding: 10px;
+    display: grid;
+    border: 2px solid;
+}
+
+#feedback_form input {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#feedback_form textarea {
+    font-size: 18px;
+    max-width: 476px;
+    min-width: 476px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+#feedback_form button {
+    width: 100px;
+    height: 30px;
+    background-color: crimson;
+    color: white;
+    border: 2px solid crimson;
+    transition: all 0.3s ease;
+}
+
+#feedback_form button:hover {
+    background-color: white;
+    color: crimson;
+    transition: all 0.3s ease;
+}
+
+.title {
+    color: crimson;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center;
+}

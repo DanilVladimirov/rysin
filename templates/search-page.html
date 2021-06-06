@@ -1,0 +1,69 @@
+{% extends 'basetemp.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/page_style.css">
+{% endblock %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        {% if pubs %}
+            <span style="font-size: 20px;"><b>Публікації:</b></span>
+            <div id="posts">
+                {% for pub in pubs %}
+                    <div class="post">
+                        <div class="post_title">{{ pub.title }}</div>
+                        <div class="post_content">
+                            {% if pub.photo %}
+                                <img src="{{ pub.photo.url }}">
+                            {% endif %}
+                            <div class="post_text">{{ pub.text | safe }}</div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if categs %}
+            <span style="font-size: 20px;"><b>Категорії:</b></span>
+            <div>
+                {% for categ in categs %}
+                    <div style="font-size: 20px;"><a href="{% url 'category' categ.id %}">{{ categ.title }}</a>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if files %}
+            <span style="font-size: 20px;"><b>Файли:</b></span>
+            <div>
+                {% for file in files %}
+                    <div style="font-size: 20px;"><a href="{% url 'file' file.id %}">{{ file.title }}</a></div>
+                    <hr>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if albums %}
+            <span style="font-size: 20px;"><b>Альбоми:</b></span>
+            <div style="display: flex; flex-wrap: wrap;margin-top: 10px;justify-content: center;">
+                {% for album in albums %}
+                    <div style="margin-right: 10px;">
+                        <img style="width: 250px;height: 250px;object-fit: cover;" src="{{ album.photo_title.url }}">
+                        <div style="text-align: center;"><a href="{% url 'album' album.id %}">{{ album.title }}</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if photos %}
+            <span style="font-size: 20px;"><b>Фотографії:</b></span>
+            <div style="display: flex; flex-wrap: wrap;margin-top: 10px;justify-content: center;">
+                {% for photo in photos %}
+                    <div style="margin-right: 10px;">
+                        <img style="width: 250px;height: 250px;object-fit: cover;" src="{{ photo.photo.url }}">
+                        <div style="text-align: center;">{{ photo.description }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

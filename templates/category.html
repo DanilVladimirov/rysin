@@ -1,0 +1,11 @@
+{% extends 'basetemp.html' %}
+
+{% block body %}
+    <div style="padding: 20px">
+        <div style="color: crimson;font-size: 30px;text-align: center"><b>{{ category.title }}</b></div>
+        {% for file in category.files.all %}
+            <div style="font-size: 20px;"><a href="{% url 'file' file.id %}">{{ file.title }}</a></div>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock %}

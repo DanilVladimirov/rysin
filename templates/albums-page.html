@@ -1,0 +1,13 @@
+{% extends 'basetemp.html' %}
+
+
+{% block body %}
+    <div style="display: flex; flex-wrap: wrap;padding: 20px;justify-content: center;">
+        {% for album in albums %}
+            <div style="margin-right: 10px;width: 250px;">
+                <img style="width: 250px;height: 250px;object-fit: cover;" src="{{ album.photo_title.url }}">
+                <div style="text-align: center;"><a href="{% url 'album' album.id %}">{{ album.title }}</a></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

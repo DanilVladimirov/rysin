@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 from google.oauth2 import service_account
 from dotenv import load_dotenv
+import django_heroku
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,7 @@ SECRET_KEY = 'django-insecure-eck^dkek5&6m0)#b3+9x$uiib@50cn6)zk)30svis!elyq%20-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['site-rysin.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -140,3 +141,4 @@ GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
 MEDIA_ROOT = 'media/'
 UPLOAD_ROOT = 'media/uploads/'
 MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+django_heroku.settings(locals())

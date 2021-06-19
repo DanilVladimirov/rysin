@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from siterysin.forms import PublicationForm, FormRegister
-from siterysin.models import Publication, Album, Photo, FeedBack, CategoryFiles, File, SliderPhotos, Navigation
+from siterysin.models import Publication, Album, Photo, FeedBack, CategoryFiles, File, SliderPhotos, Navigation, InfoStudent
 
 
 def page(req):
@@ -137,7 +137,9 @@ def register_page(req):
     if req.POST:
         form = FormRegister(req.POST)
         if form.is_valid():
-            form.save()
+            new_stud = form.save()
+            info_user = InfoStudent.objects.create(user=new_stud, group_name=req.POST.get('group_name'), school_name=req.POST.get('school_name'))
+            info_user.save()
             return redirect('login-page')
         print(form.errors)
     return render(req, 'register-page.html')

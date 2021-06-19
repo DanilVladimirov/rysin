@@ -10,10 +10,10 @@
         <div id="msg" style="text-align: center;"></div>
         <form id="feedback_form" method="post">
             {% csrf_token %}
-            <input type="text" placeholder="Ім'я та призвіще" name="full_name">
-            <input type="text" placeholder="пошта" name="email">
-            <input type="text" placeholder="Тема письма" name="title">
-            <textarea placeholder="ваше повідомлення" name="text"></textarea>
+            <input type="text" placeholder="Ім'я та призвіще" name="full_name" required>
+            <input type="email" placeholder="пошта" name="email" required>
+            <input type="text" placeholder="Тема письма" name="title" required>
+            <textarea placeholder="ваше повідомлення" name="text" required></textarea>
             <button type="submit">відправити</button>
         </form>
     </div>

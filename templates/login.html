@@ -5,10 +5,18 @@
 {% endblock %}
 
 {% block body %}
+    <div style="width: 34%;margin: auto;text-align: left;margin-top: 10px;">
+        <div style="text-align: center;">
+            {% if error %}
+                <strong style="color: #d44040;">Невірні дані</strong>
+            {% endif %}
+        </div>
+    </div>
     <div class="title">Логін</div>
     <div style="margin-top: 10px;">
         <div class="auth">
-            <div style="text-align: right;">Ще не зареєстровані? - <a href="{% url 'register-page' %}">зареєструватись</a></div>
+            <div style="text-align: right;">Ще не зареєстровані? - <a
+                    href="{% url 'register-page' %}">зареєструватись</a></div>
             <form class="form_auth" method="post">
                 {% csrf_token %}
                 <input type="text" placeholder="ваш логін" name="username" id="id_username" required>

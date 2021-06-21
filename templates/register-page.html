@@ -5,6 +5,22 @@
 {% endblock %}
 
 {% block body %}
+    <div style="width: 34%;margin: auto;text-align: left;margin-top: 10px;">
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div>
+                        <strong style="color: #d44040;">{{ error|escape|safe }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div>
+                    <strong style="color: #d44040;">{{ error|escape|safe }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
     <div class="title">Реєстрація</div>
     <div class="auth">
         <div style="text-align: right;">Маєте аккаунт ? - <a href="{% url 'login-page' %}">ввійти</a></div>
@@ -16,10 +32,9 @@
             <input type="text" placeholder="ваше призвіще" name="last_name" id="id_last_name" required>
             <input type="text" placeholder="ваша группа" name="group_name" required>
             <input type="text" placeholder="навчальний заклад" name="school_name" required>
-            <input type="password" placeholder="ваш пароль" name="password1" required>
+            <input type="password" placeholder="ваш пароль(не менш ніж 8 символів)" name="password1" required>
             <input type="password" placeholder="повторіть ваш пароль" name="password2" required>
             <button type="submit" style="width: 150px;">зареєструватись</button>
         </form>
-
     </div>
 {% endblock %}

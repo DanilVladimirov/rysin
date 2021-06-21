@@ -113,6 +113,7 @@ def search_page(req):
 
 
 def login_page(req):
+    context = {}
     if req.user.is_authenticated:
         return redirect('startpage')
     else:
@@ -125,7 +126,9 @@ def login_page(req):
             if user is not None:
                 login(req, user)
                 return redirect('startpage')
-    return render(req, 'login.html')
+            else:
+                context.update({'error': True})
+    return render(req, 'login.html', context)
 
 
 def logout_page(req):
@@ -134,6 +137,7 @@ def logout_page(req):
 
 
 def register_page(req):
+    context = {}
     if req.POST:
         form = FormRegister(req.POST)
         if form.is_valid():
@@ -141,5 +145,5 @@ def register_page(req):
             info_user = InfoStudent.objects.create(user=new_stud, group_name=req.POST.get('group_name'), school_name=req.POST.get('school_name'))
             info_user.save()
             return redirect('login-page')
-        print(form.errors)
-    return render(req, 'register-page.html')
+        context.update({'form': form})
+    return render(req, 'register-page.html', context)
